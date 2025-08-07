@@ -50,6 +50,7 @@
 
 
     echo $osobe["Jelena"]["godine"];
+    echo var_dump($osobe);
 
     $imena = array_keys($osobe);
     $prezimena = array_column($osobe, "prezime");
