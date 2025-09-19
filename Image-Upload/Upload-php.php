@@ -7,6 +7,7 @@ if(!isset($_FILES['profileImage']))
 
 $profileImage = $_FILES['profileImage'];
 
+
 require_once "models/Images.php";
 
 $image = new Images();

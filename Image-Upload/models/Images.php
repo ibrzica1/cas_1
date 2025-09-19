@@ -25,11 +25,8 @@ class Images extends DB
   {
     $size = $image['size'];
 
-    if($size > self::MAX_FILE_SIZE)
-    {
-      return false;
-    }
-    return true;
+    return $size > self::MAX_FILE_SIZE ? false : true;
+    
   }
 
   public function generateRandomName($extension)
@@ -41,11 +38,8 @@ class Images extends DB
   {
     $imageType = pathinfo($image['name'], PATHINFO_EXTENSION);
 
-    if(!in_array($imageType, self::ALLOWED_EXTENSIONS))
-    {
-      return false;      
-    }
-    return true;
+    return !in_array($imageType, self::ALLOWED_EXTENSIONS) ?  false : true;
+    
   }
 
   public function isValidDimension($image)
@@ -55,11 +49,7 @@ class Images extends DB
     $imageWidth = $image_info[0];
     $imageHeight = $image_info[1];
 
-    if($imageWidth > self::MAX_IMAGE_WIDTH || $imageHeight > self::MAX_IMAGE_HEIGHT)
-    {
-      return false;
-    }
-
-    return true;
+    return $imageWidth > self::MAX_IMAGE_WIDTH || $imageHeight > self::MAX_IMAGE_HEIGHT ? false : true;
+    
   }
 }
