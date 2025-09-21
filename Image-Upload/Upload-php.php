@@ -1,40 +1,60 @@
 <?php
 
-if(!isset($_FILES['profileImage']))
+if(session_status() == PHP_SESSION_NONE)
 {
-  die("Niste prosledili profilnu sliku");
+  session_start();
 }
-
-$profileImage = $_FILES['profileImage'];
-
 
 require_once "models/Images.php";
 
 $image = new Images();
 
-$randomName = $image->generateRandomName('jpg');
-
-$imageFolder = "images/";
-
-if(!is_dir($imageFolder))
+if(!isset($_FILES['profileImage']))
 {
-  mkdir($imageFolder, 0755, true);
+  die("Niste prosledili profilnu sliku");
 }
 
-if(!$image->isValidSize($profileImage))
+foreach($_FILES['profileImage']['name'] as $key => $file)
 {
-  die("Slika je prevelika");
+
+    $profileImage = [
+        'name' => $_FILES['profileImage']['name'][$key],
+        'full_path' => $_FILES['profileImage']['full_path'][$key],
+        'type' => $_FILES['profileImage']['type'][$key],
+        'tmp_name' => $_FILES['profileImage']['tmp_name'][$key],
+        'size' => $_FILES['profileImage']['size'][$key],
+    ];
+
+    $randomName = $image->generateRandomName('jpg');
+
+    $imageFolder = "images/";
+
+    if(!is_dir($imageFolder))
+    {
+      mkdir($imageFolder, 0755, true);
+    }
+
+    if(!$image->isValidSize($profileImage))
+    {
+      $_SESSION['imageErrors'][] = "Slika je prevelika";
+      continue;
+    }
+
+    if(!$image->isValidDimension($profileImage))
+    {
+      $_SESSION['imageErrors'][] = "Image width cant be wider than 1920 or higher than 1024";
+      continue;
+    }
+
+    if(!$image->isValidExtension($profileImage))
+    {
+      $_SESSION['imageErrors'][] = "Format slike nije dobar";
+      continue;
+    }
+
+    $image->uploadImage($profileImage,$randomName);
 
 }
 
-if(!$image->isValidDimension($profileImage))
-{
-  die("Image width cant be wider than 1920 or higher than 1024");
-}
+header("Location: images.php");
 
-if(!$image->isValidExtension($profileImage))
-{
-  die("Format slike nije dobar");
-}
-
-$image->uploadImage($profileImage,$randomName);
