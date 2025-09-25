@@ -1,0 +1,15 @@
+{
+    "name": "predator/lessons",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ibrzica1",
+            "email": "168496865+ibrzica1@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
