@@ -75,8 +75,9 @@ class UserController extends SessionService
     $userModel->registerUser($data['username'],$data['password']);
 
     $title = "Dobrodosli";
-    $body = "Dobrodosli na nasu stranicu!";
-    $mail->sendMail($mail,$title,$body);
+    $body = "Dobrodosli {$data['username']} na nasu stranicu!";
+    $address = 'test@inbox.mailtrap.io';
+    $mail->sendMail($address,$title,$body);
 
     $user = $userModel->getUserByUsername($data['username']);
 

@@ -5,30 +5,34 @@ namespace Mail_Lesson\services;
 require_once "vendor/autoload.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
+use Dotenv\Dotenv;
 
 class MailService
 {
+  protected $mailer;
   public function __construct()
   {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv = Dotenv::createImmutable(__DIR__. '/../../');
     $dotenv->load();
-    $mailer = new PHPMailer();
+    $this->mailer = new PHPMailer();
 
-    $mailer->isSMTP();
-    $mailer->Host = $_ENV['MAILTRAP_HOST'];
-    $mailer->SMTPAuth = true;
-    $mailer->Username = $_ENV['MAILTRAP_USERNAME'];
-    $mailer->Password = $_ENV['MAILTRAP_PASSWORD'];
-    $mailer->Port = $_ENV['MAILTRAP_PORT'];
+    $this->mailer->isSMTP();
+    $this->mailer->Host = $_ENV['MAILTRAP_HOST'];
+    $this->mailer->SMTPAuth = true;
+    $this->mailer->Username = $_ENV['MAILTRAP_USERNAME'];
+    $this->mailer->Password = $_ENV['MAILTRAP_PASSWORD'];
+    $this->mailer->Port = $_ENV['MAILTRAP_PORT'];
   }
 
-  public function sendMail($mailer,$address,$title,$body)
+  public function sendMail($address,$title,$body)
   {
-    $mailer->setFrom('igorbrzica1@gmail.com','Igor');
-    $mailer->addAddress($address);
-    $mailer->Subject = $title;
-    $mailer->Body = $body;
-    $mailer->send();
+    $this->mailer->ClearAllRecipients();
+    $this->mailer->setFrom('igorbrzica1@gmail.com','Igor');
+    $this->mailer->addAddress($address);
+    $this->mailer->Subject = $title;
+    $this->mailer->Body = $body;
+    $this->mailer->IsHTML(false);
+    $this->mailer->send();
   }
   
 }

@@ -2,7 +2,7 @@
     "name": "predator/lessons",
     "autoload": {
         "psr-4": {
-            "MVC\\": "src/"
+            "Mail_Lesson\\": "src/"
         }
     },
     "authors": [
