@@ -114,5 +114,3 @@ MyBands.data = ['Neil Young','Kiss','Mettalica']
 console.log(MyBands.data)
 MyBands.data = [...MyBands.data, 'ZZ Top']
 console.log(MyBands.data)
-MyBands.data = ['Van Halen', 5150]
-console.log(MyBands.data)
